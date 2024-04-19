@@ -1,0 +1,11 @@
+{
+  "name": "测试服务接口文档",
+  "version": "1.0",
+  "description": "Auto Test Service API",
+  "title": "Auto Test Service API",
+  "url" : "http://0.0.0.0:5000",
+  "header": {
+    "title": "Description of public resources",
+    "filename": "api_doc_resources.md"
+  }
+}

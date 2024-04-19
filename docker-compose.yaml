@@ -1,0 +1,122 @@
+version: "3"
+services:
+    autoserver:
+        environment:
+            - HOST=0.0.0.0
+            - MODE=prod
+            - PORT=5100
+            - PGHOST=0.0.0.0
+            - PGUSER=postgres
+            - PGPASS=88st2023
+            - PGPORT=15432
+            - RDSHOST=0.0.0.0
+            - RDSPASS=ODhzdElWQTIwMTc=
+            - SER_TYPE=1
+        image: registry.sensetime.com/spbuqa/autotest:v1.2
+        ports:
+            - 0.0.0.0:5100:5100
+        network_mode: autotest
+        volumes:
+            # - /data/report:/autotest/report
+            - /Users/zhengzhenjia/Code/new_platform/autotest/report:/autotest/report
+            - /var/run/docker.sock:/var/run/docker.sock
+        container_name: autoserver
+        links:
+            - autopostgres
+        depends_on:
+            - autopostgres
+            - autoredis
+        privileged: true
+
+    autoceleryrunner:
+        environment:
+            - HOST=0.0.0.0
+            - MODE=prod
+            - PORT=5100
+            - PGHOST=0.0.0.0
+            - PGUSER=postgres
+            - PGPASS=88st2023
+            - PGPORT=15432
+            - RDSHOST=0.0.0.0
+            - RDSPASS=ODhzdElWQTIwMTc=
+            - SER_TYPE=2
+        image: registry.sensetime.com/spbuqa/autotest:v1.2
+        network_mode: autotest
+        volumes:
+            - /Users/zhengzhenjia/Code/new_platform/autotest/report:/autotest/report
+            - /var/run/docker.sock:/var/run/docker.sock
+        container_name: autoceleryrunner
+        privileged: true
+
+
+    autoceleryflower:
+        image: registry.sensetime.com/spbuqa/flower:v1
+        command: celery flower --port=16377
+        ports:
+          - 0.0.0.0:16377:16377
+        network_mode: autotest
+        environment:
+          CELERY_BROKER_URL: redis://:ODhzdElWQTIwMTc=@10.9.114.9:16379/1
+          CELERY_RESULT_BACKEND: redis://:ODhzdElWQTIwMTc=@10.9.114.9:16379/1
+        depends_on:
+          - autoceleryrunner
+          - autoredis
+        container_name: autoceleryflower
+
+    autopostgres:
+        image: postgres:latest
+        restart: always
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_PASSWORD=88st2023
+            - POSTGRES_DB=autotest
+            - PGDATA=/var/lib/postgresql/data/pgdata 
+            - ALLOW_IP_RANGE=0.0.0.0/0
+        volumes:
+            # - /data/pg_autotest:/var/lib/postgresql/data
+            - /Users/zhengzhenjia/PGData/pgdata:/var/lib/postgresql/data
+        ports:
+            - 15432:5432
+        container_name: autopostgres
+        network_mode: autotest
+        privileged: true
+
+    autoredis:
+        image: redis
+        container_name: autoredis
+        command: redis-server --requirepass ODhzdElWQTIwMTc=
+        ports:
+            - 0.0.0.0:16379:6379
+        volumes:
+            - /Users/zhengzhenjia/RDSData:/data
+        privileged: true
+        network_mode: autotest
+
+    autominio:
+        image: 'bitnami/minio:latest'
+        volumes:
+            - /Users/zhengzhenjia/MinioData:/data
+        environment:
+            - MINIO_ROOT_USER=minio
+            - MINIO_ROOT_PASSWORD=miniosecret
+            - MINIO_DEFAULT_BUCKETS=autotest:public,others
+        ports:
+            - '9000:9000'
+            - '9001:9001'
+        network_mode: autotest
+
+    ztfront:
+        environment:
+            - VITE_API_URL=http://10.9.242.41:5100
+        image: registry.sensetime.com/spbuqa/stzt_front:v0.1
+        ports:
+            - 0.0.0.0:8848:8848
+        network_mode: autotest
+        container_name: autozitifront
+        depends_on:
+            - autoserver
+        privileged: true
+
+networks:
+  autotest:
+    external: true

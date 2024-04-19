@@ -1,0 +1,15 @@
+.vscode/*
+.idea/*
+.venv
+__pycache__/
+*/.pytest_cache/
+report/*
+*/.pytest_cache/*
+archive/*
+/archive
+result
+*.html
+poetry.lock
+/logs
+.DS_Store
+app/.DS_Store

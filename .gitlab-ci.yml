@@ -1,0 +1,101 @@
+before_script:
+  - apk add --update curl && rm -rf /var/cache/apk/*
+
+stages:
+  - package
+  - business-test
+
+package-build:
+  stage: package
+  image: registry.sensetime.com/turbo-cloud/docker:dind
+  before_script:
+    - docker login https://registry.sensetime.com -u $AD_USER -p $AD_PASS
+    - export TZ=UTC-08:00
+    - export A_DATE=`echo ${CI_PIPELINE_CREATED_AT} | sed 's/T/ /'`
+    - export PIPE_DATE=`date -d "${A_DATE}" +%Y%m%d%H%M`
+  script:
+    - echo "make docker iamge... and upload."
+    - |
+      echo ${PIPE_DATE}
+      VERSION="${CI_COMMIT_REF_NAME}-${PIPE_DATE}-${CI_COMMIT_SHORT_SHA}"
+
+      if [ $CI_COMMIT_TAG ]
+      then
+        VERSION="${CI_COMMIT_REF_NAME}"
+      fi
+      # VERSION="${CI_COMMIT_REF_NAME}-${BUILD_DATE}-${CI_COMMIT_SHORT_SHA}"
+      echo "Running on branch '$CI_COMMIT_BRANCH': tag = $VERSION"
+      ls -al
+    - docker build -f Dockerfile -t registry.sensetime.com/kube-starter/${CI_PROJECT_NAME}:${VERSION} .
+    - docker push registry.sensetime.com/kube-starter/${CI_PROJECT_NAME}:${VERSION}
+
+  when: manual
+  only:
+    - /^master.*$/
+
+# business-test:
+#   stage: business-test
+#   script:
+#     - |-
+#       PAYLOAD=$(cat << JSON
+#       {
+#           "image": "registry.sensetime.com/kube-starter/openapitest:v1.1",
+#           "mark": "test_with_belt_pic_one_one",
+#           "env": {"HOST_BELT": "127.0.0.1:5000"},
+#           "project_id":1,
+#           "pipeline_id": "${CI_PIPELINE_ID}_${CI_JOB_ID}"
+#       }
+#       JSON
+#       )
+#     - echo "$PAYLOAD"
+#     - >
+#       http_response=$(curl --silent --show-error --write-out "%{http_code}" -o response.txt
+#       --request POST "http://10.152.205.1:5000/autotest/run_task"
+#       --header 'Content-Type: application/json'
+#       --header 'Accept: application/json'
+#       --data-binary "${PAYLOAD}")
+#     - |-
+#       if [ $http_response != "200" ]; then
+#         exit 1
+#       else
+#         echo "Server returned:"
+#         RESPONSE=$(cat response.txt)   
+#         echo $http_response
+#       fi
+#   when: manual
+#   allow_failure: false
+#   only:
+#     - /^master.*$/
+
+
+businness-test2:
+  stage: business-test
+  image: registry.sensetime.com/turbo-cloud/docker:dind
+  before_script:
+    - docker login https://registry.sensetime.com -u ${AD_USER} -p ${AD_PASS}
+    - export TZ=UTC-08:00
+    - export A_DATE=`echo ${CI_PIPELINE_CREATED_AT} | sed 's/T/ /'`
+    - export PIPE_DATE=`date -d "${A_DATE}" +%Y%m%d%H%M`
+    # - docker pull registry.sensetime.com/kube-starter/openapitest:v1.1
+  script: 
+    - docker run --rm --pull missing --name ${CI_PIPELINE_ID}_${CI_JOB_ID} -e HOST_BELT=127.0.0.1:5000 registry.sensetime.com/kube-starter/openapitest:v1.1 pytest -s -v --disable-warnings tests -m test_with_belt_pic_one_one
+  allow_failure: false
+  when: manual
+  only:
+    - /^master.*$/
+
+
+businness-test:
+  stage: business-test
+  image: registry.sensetime.com/turbo-cloud/docker:dind
+  before_script:
+    - docker login https://registry.sensetime.com -u ${AD_USER} -p ${AD_PASS}
+    - export TZ=UTC-08:00
+    - export A_DATE=`echo ${CI_PIPELINE_CREATED_AT} | sed 's/T/ /'`
+    - export PIPE_DATE=`date -d "${A_DATE}" +%Y%m%d%H%M`
+  script: 
+    - docker run --rm --pull always registry.sensetime.com/kube-starter/test_ci_runner:v1 python run_test.py -i registry.sensetime.com/kube-starter/turbopc_api_test:v0.1 -e '{"HOST":"http://10.152.208.5:8079"}' -l 'tests' -m 'sanity_check' -k ${CI_PIPELINE_ID}_${CI_JOB_ID} -p 1
+  allow_failure: false
+  when: manual
+  only:
+    - /^master.*$/
