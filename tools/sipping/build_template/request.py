@@ -300,7 +300,7 @@ To: <sip:{self.station_code}@{self.station_ip}:{self.station_port}>
 Contact: <sip:{self.station_code}@{self.platform_ip}:{self.platform_port}>
 Call-ID: c47a42
 CSeq: {index} SUBSCRIBE
-Event: presense 
+Event: prexxxx 
 Expires: 4200 
 Max-Forwards: 70 
 Content-Type: application/xml 

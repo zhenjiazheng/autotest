@@ -5,17 +5,17 @@ import os
 
 class PublicEmailConfig(object):
     Server = 'smtp.partner.outlook.cn'
-    User = "eig.alarm@sensetime.com"
+    User = "eig.alarm@xxx.com"
     Password = "djIU4&ksy!0O"
     EmailPort = 587
 
 
 class LDAPConfig(object):
-    LDAP_HOST = "ldap://rwdc.sz.sensetime.com"
-    LDAP_BASE_DN = "dc=domain,dc=sensetime, dc=com"
-    LDAP_BIND_USER_DN = "cn=%s,ou=people,dc=domain,dc=sensetime,dc=com"
+    LDAP_HOST = "ldap://rwdc.sz.xxx.com"
+    LDAP_BASE_DN = "dc=domain,dc=xxx, dc=com"
+    LDAP_BIND_USER_DN = "cn=%s,ou=people,dc=domain,dc=xxx,dc=com"
     LDAP_SEARCH_FILTER = "cn=%s"
-    LDAP_USER = "senselighting"
+    LDAP_USER = "xxxlighting"
     LDAP_PASS = "vsyuIiR-W1exc-ki"
 
 
@@ -58,7 +58,7 @@ class SocketSIPConig(object):
 class LLMCONFIG(object):
     LLM_ACCESS_KEY = "2XyMvjTtbEU4z0nnRlIsGpcWQ6Y" # 填写您的ak
     LLM_SECRET_KEY = "OxtVzKcPm126OpEE23HD8hzIhhuuAXKN" # 填写您的sk
-    NOVA_LLM_SERVER = 'https://api.sensenova.cn'
+    NOVA_LLM_SERVER = 'https://api.xxxnova.cn'
 
 class Config(LDAPConfig, PGConfig, CELERYConfig, SocketSIPConig, LLMCONFIG):
     CSRF_ENABLED = True
@@ -75,7 +75,7 @@ class Config(LDAPConfig, PGConfig, CELERYConfig, SocketSIPConig, LLMCONFIG):
     MAX_WORKERS = 200
     SON_AS_ASCII = False
     SECRET_KEY = '3JaTAURKQn0evWEw'
-    REGISTRY="registry.sensetime.com"
+    REGISTRY="registry.xxx.com"
     TOKEN_TIMEOUT = 24 * 3600
     URI_WHITE_LIST = ['/autotest/user/login', '/autotest/user/register']
 

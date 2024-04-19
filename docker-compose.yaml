@@ -12,7 +12,7 @@ services:
             - RDSHOST=0.0.0.0
             - RDSPASS=ODhzdElWQTIwMTc=
             - SER_TYPE=1
-        image: registry.sensetime.com/spbuqa/autotest:v1.2
+        image: registry.xxx.com/spbuqa/autotest:v1.2
         ports:
             - 0.0.0.0:5100:5100
         network_mode: autotest
@@ -40,7 +40,7 @@ services:
             - RDSHOST=0.0.0.0
             - RDSPASS=ODhzdElWQTIwMTc=
             - SER_TYPE=2
-        image: registry.sensetime.com/spbuqa/autotest:v1.2
+        image: registry.xxx.com/spbuqa/autotest:v1.2
         network_mode: autotest
         volumes:
             - /Users/zhengzhenjia/Code/new_platform/autotest/report:/autotest/report
@@ -50,7 +50,7 @@ services:
 
 
     autoceleryflower:
-        image: registry.sensetime.com/spbuqa/flower:v1
+        image: registry.xxx.com/spbuqa/flower:v1
         command: celery flower --port=16377
         ports:
           - 0.0.0.0:16377:16377
@@ -108,7 +108,7 @@ services:
     ztfront:
         environment:
             - VITE_API_URL=http://10.9.242.41:5100
-        image: registry.sensetime.com/spbuqa/stzt_front:v0.1
+        image: registry.xxx.com/spbuqa/stzt_front:v0.1
         ports:
             - 0.0.0.0:8848:8848
         network_mode: autotest

@@ -398,7 +398,7 @@ if __name__ == '__main__':
     #             docker_query="docker_query", message="Test", charts=["abc/test", 'cdf/tests'])
     # # send_email(**data)
     # print(gen_template(**data))
-    de_password = "Sensetime@2023"
+    de_password = "xxxxtime@2023"
     secret_key = '3JaTAURKQn0evWEw' 
     se = AESCrypto()
     data = se.encrypt(secret_key, de_password)
