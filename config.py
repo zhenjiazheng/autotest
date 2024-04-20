@@ -86,8 +86,8 @@ class Config(LDAPConfig, PGConfig, CELERYConfig, SocketSIPConig, LLMCONFIG):
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:88st2023@10.9.242.41:15432/autotest"
-    REDIS_URL = "redis://:ODhzdElWQTIwMTc=@10.9.242.41:16379/0"
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:88st2023@0.0.0.0:15432/autotest"
+    REDIS_URL = "redis://:ODhzdElWQTIwMTc=@0.0.0.0:16379/0"
     CELERY_BROKER_URL = "redis://:ODhzdElWQTIwMTc=@10.9.242.41:16379/1"
 
 

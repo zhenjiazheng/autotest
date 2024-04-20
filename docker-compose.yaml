@@ -74,7 +74,7 @@ services:
             - ALLOW_IP_RANGE=0.0.0.0/0
         volumes:
             # - /data/pg_autotest:/var/lib/postgresql/data
-            - /Users/zhengzhenjia/PGData/pgdata:/var/lib/postgresql/data
+            - /Users/zzj/PGData/pgdata:/var/lib/postgresql/data
         ports:
             - 15432:5432
         container_name: autopostgres
@@ -88,7 +88,7 @@ services:
         ports:
             - 0.0.0.0:16379:6379
         volumes:
-            - /Users/zhengzhenjia/RDSData:/data
+            - /Users/zzj/RDSData:/data
         privileged: true
         network_mode: autotest
 
@@ -107,8 +107,8 @@ services:
 
     ztfront:
         environment:
-            - VITE_API_URL=http://10.9.242.41:5100
-        image: registry.xxx.com/spbuqa/stzt_front:v0.1
+            - VITE_API_URL=http://0.0.0.0:5100
+        image: registry.xxx.com/spbu/stzt_front:v0.1
         ports:
             - 0.0.0.0:8848:8848
         network_mode: autotest
