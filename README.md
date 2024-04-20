@@ -4,6 +4,7 @@
     2. 自动化测试框架 集成 docker + 【pytest + allure】，另外支持【unittest + htmlrunner】等其他docker运行  <br>
     3. 测试脚本等输出Docker并与项目关联  <br>
     4. 提供API外部触发测试，指定项目id  <br>
+    /*![流程图片](flow.png) */
 ## 运行：
 ### Docker启动方式：
     1. docker network create autotest 
