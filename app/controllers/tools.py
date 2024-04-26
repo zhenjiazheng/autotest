@@ -91,8 +91,8 @@ def bm_monitor_task():
                 "type": "BM",
                 "ssh_ip": "10.9.112.146",
                 "ssh_port": 22,
-                "ssh_user": "linaro",
-                "ssh_password": "linaro"
+                "ssh_user": "xxx",
+                "ssh_password": "xxx"
                 },
             "run_config": {
                 "run_duration": 300,
@@ -100,26 +100,8 @@ def bm_monitor_task():
             },
             "validate":{
                 "docker_checks": [
-                    "registry.xxx.com/xxxpower/cloud_frontend",
-                    "registry.xxxxtime.com/xxxxpower/cloud_backend",
-                    "registry.xxxxtime.com/xxxxpower/h5_player_tool",
-                    ["registry.xxxxtime.com/viper/engine-video-process-service", "vps-worker-safety-supervision"],
-                    ["registry.xxxxtime.com/viper/engine-video-process-service", "vps-manager"],
-                    ["registry.xxxxtime.com/xxxxpower/engine-vis-wrapper-service", "vis-wrapper-service"],
-                    ["registry.xxxxtime.com/viper/engine-video-ingress-service", "vis-rtsp-over-ws"],
-                    ["registry.xxxxtime.com/viper/engine-video-ingress-service", "vis-sip"],
-                    "registry.xxxxtime.com/viper/task-manager-service",
-                    "registry.xxxxtime.com/viper/message-consume-service",
-                    "registry.xxxxtime.com/xxxxpower/ptz",
-                    "registry.xxxxtime.com/infra/zookeeper",
-                    "registry.xxxxtime.com/infra/timescaledb",
-                    "registry.xxxxtime.com/viper/licenseca",
-                    "registry.xxxxtime.com/viper/eclipse-mosquitto",
-                    "registry.xxxxtime.com/symphony-test/minio/minio",
-                    "registry.xxxxtime.com/infra/redis",
-                    "registry.xxxxtime.com/infra/infra-object-storage-gateway",
-                    "registry.xxxxtime.com/infra/etcd",
-                    ["vis-rtsp", "0.0.0.0:8104-8105"]
+                    "dockera",
+                    ["dockerb", "0.0.0.0:8104-8105"]
                 ]
             },
             "limit_rate": {
